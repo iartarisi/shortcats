@@ -25,5 +25,15 @@ def shorten(url):
         rdb.set('shorts|'+short, url)
         return short
 
+def expand(short):
+    """Expands a unique id into a URL from the database
+
+    :short: a string which identifies an already shortened URL
+
+    Returns a valid URL from the database or None if the id was not found.
+
+    """
+    return rdb.get('shorts|'+short.lower())
+
 if __name__ == "__main__":
     app.run()
