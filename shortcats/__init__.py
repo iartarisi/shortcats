@@ -22,6 +22,7 @@ def shorten(url):
         counter = rdb.incr('url_counter')
         short = int_to_base36(counter)
         rdb.set('urls|' + url, short)
+        rdb.set('shorts|'+short, url)
         return short
 
 if __name__ == "__main__":

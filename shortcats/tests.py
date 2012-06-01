@@ -29,8 +29,10 @@ class ShortenTest(unittest.TestCase):
             rdb['urls|'+TEST_URL]
         short = shorten(TEST_URL)
         self.assertEqual(rdb.get('urls|'+TEST_URL), '1')
+        self.assertEqual(rdb.get('shorts|1'), TEST_URL)
 
     def test_shorten_doesnt_exist_creates_new_next(self):
         rdb.set('url_counter', 51)
         shorten(TEST_URL)
         self.assertEqual(rdb.get('urls|'+TEST_URL), '1g')
+        self.assertEqual(rdb.get('shorts|1g'), TEST_URL)
