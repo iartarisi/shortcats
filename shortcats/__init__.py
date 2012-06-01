@@ -13,7 +13,15 @@ def hello():
     return "Hello World!"
 
 def shorten(url):
-    """Shortens a given url, returning the unique id of that url"""
+    """Shortens a given URL, returning the unique id of that URL
+
+    :url: a valid URL string
+
+    The URL will be recorded in the database if it does not already exist.
+
+    Returns a string id composed of lowercase alphanumeric characters
+
+    """
     existing_url = rdb.get('urls|' + url)
 
     if existing_url:
