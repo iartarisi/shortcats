@@ -20,9 +20,9 @@ def shorten(url):
         return existing_url
     else:
         counter = rdb.incr('url_counter')
-        link_id = int_to_base36(counter)
-        rdb.set('urls|' + url, link_id)
-        return link_id
+        short = int_to_base36(counter)
+        rdb.set('urls|' + url, short)
+        return short
 
 if __name__ == "__main__":
     app.run()
