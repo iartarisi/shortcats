@@ -81,4 +81,4 @@ def expand(short):
     return rdb.get('shorts|' + short.lower())
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
