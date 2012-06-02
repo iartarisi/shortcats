@@ -13,6 +13,6 @@ setup(
     packages=find_packages(exclude=["*.test", "test", "*.test.*"]),
     include_package_data=True,
     zip_safe=False,
-    install_requires=['Flask'],
+    install_requires=['Flask', 'redis'],
     test_suite="shortcats.tests"
     )
