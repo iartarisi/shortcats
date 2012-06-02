@@ -38,7 +38,9 @@ def expand_url(short):
     """Redirects the user to a URL which has already been shortened
 
     :short: a string which identifies an already shortened URL
- 
+
+    Returns 404 if the URL is not known to the application.
+
     """
     try:
         return redirect(rdb['shorts|' + short])
