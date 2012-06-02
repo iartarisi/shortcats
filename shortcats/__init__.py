@@ -4,8 +4,9 @@
 from flask import Flask, abort, redirect, render_template, request
 app = Flask(__name__)
 
-from shortcats.utils import int_to_base36, valid_url
-from shortcats.configs import rdb, BASE_URL
+from shortcats.backend import shorten, expand
+from shortcats.utils import valid_url
+from shortcats.configs import BASE_URL
 
 
 @app.route("/")
@@ -48,39 +49,6 @@ def expand_url(short):
     except KeyError:
         abort(404)
 
-
-def shorten(url):
-    """Shortens a given URL, returning the unique id of that URL
-
-    :url: a valid URL string
-
-    The URL will be recorded in the database if it does not already exist.
-
-    Returns a string id composed of lowercase alphanumeric characters
-
-    """
-    existing_url = rdb.get('urls|' + url)
-
-    if existing_url:
-        return existing_url
-    else:
-        counter = rdb.incr('url_counter')
-        short = int_to_base36(counter)
-        rdb.set('urls|' + url, short)
-        rdb.set('shorts|' + short, url)
-        return short
-
-
-def expand(short):
-    """Expands a unique id into a URL from the database
-
-    :short: a string which identifies an already shortened URL
-
-    Returns a valid URL from the database. Raises a KeyError if the id
-    was not found.
-
-    """
-    return rdb['shorts|' + short.lower()]
 
 if __name__ == "__main__":
     app.run(debug=True)
