@@ -73,7 +73,7 @@ class ViewTests(unittest.TestCase):
 
     # shorten_url
     def test_shorten_url(self):
-        response = self.app.post('/shorten', data=dict(url=TEST_URL))
+        response = self.app.post('/', data=dict(url=TEST_URL))
         self.assertEqual(response.status, '200 OK')
         self.assertIn('<a id="original" href="%(original)s">%(original)s</a>'
                       % dict(original=TEST_URL),
@@ -83,16 +83,16 @@ class ViewTests(unittest.TestCase):
                       response.data)
 
     def test_shorten_url_no_url_arg(self):
-        response = self.app.post('/shorten', data=dict())
+        response = self.app.post('/', data=dict())
         self.assertEqual(response.status, '400 BAD REQUEST')
 
     def test_shorten_url_invalid_url(self):
-        response = self.app.post('/shorten', data=dict(url='http://bogus!'))
+        response = self.app.post('/', data=dict(url='http://bogus!'))
         self.assertEqual(response.status, '400 BAD REQUEST')
 
     # index
     def test_index_get_ok(self):
         response = self.app.get('/')
         self.assertEqual(response.status, '200 OK')
-        self.assertIn('<form id="shorten" action="/shorten" method="POST"',
+        self.assertIn('<form id="shorten" action="/" method="POST"',
                       response.data)

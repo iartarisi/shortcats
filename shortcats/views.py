@@ -6,13 +6,13 @@ from shortcats.utils import valid_url
 from shortcats.configs import BASE_URL
 
 
-@app.route("/")
+@app.route("/", methods=['GET'])
 def index():
     """Show our front page"""
     return render_template("index.html")
 
 
-@app.route("/shorten", methods=['POST'])
+@app.route("/", methods=['POST'])
 def shorten_url():
     """Shortens a URL, returning a URL which will redirect to :url:
 
