@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
-from flask import Flask
+from flask import Flask, redirect, abort
 app = Flask(__name__)
 
 from shortcats.utils import base36_to_int, int_to_base36
@@ -11,6 +10,18 @@ from shortcats.configs import rdb
 @app.route("/")
 def hello():
     return "Hello World!"
+
+@app.route("/<short>")
+def expand_url(short):
+    """Redirects the user to a URL which has already been shortened
+
+    :short: a string which identifies an already shortened URL
+ 
+    """
+    try:
+        return redirect(rdb['shorts|'+short])
+    except KeyError:
+        abort(404)
 
 def shorten(url):
     """Shortens a given URL, returning the unique id of that URL

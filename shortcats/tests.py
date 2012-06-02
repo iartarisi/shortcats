@@ -2,7 +2,7 @@ import unittest
 
 import redis
 
-from shortcats import shorten, expand
+from shortcats import app, shorten, expand
 from shortcats.configs import rdb
 
 TEST_URL = 'http://doesn.exist'
@@ -48,3 +48,21 @@ class ShortenTest(unittest.TestCase):
     def test_expands_is_case_insensitive(self):
         rdb.set('shorts|2bogus', TEST_URL)
         self.assertEqual(expand('2BogUs'), TEST_URL)
+
+class ViewTests(unittest.TestCase):
+
+    def setUp(self):
+        self.app = app.test_client()
+
+    def tearDown(self):
+        rdb.flushdb()
+
+    def test_expand_url_not_found(self):
+        response = self.app.get('/notfound')
+        self.assertEqual(response.status, '404 NOT FOUND')
+
+    def test_expand_url_redirects(self):
+        rdb.set('shorts|asdf', TEST_URL)
+        response = self.app.get('/asdf')
+        self.assertEqual(response.status, '302 FOUND')
+        
