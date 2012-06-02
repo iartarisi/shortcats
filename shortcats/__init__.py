@@ -10,8 +10,10 @@ from shortcats.configs import rdb
 BASE_URL = 'http://localhost:5000/'
 
 @app.route("/")
-def hello():
-    return "Hello World!"
+def index():
+    """Show our front page"""
+    return render_template("index.html")
+
 @app.route("/shorten", methods=['POST'])
 def shorten_url():
     """Shortens a URL, returning a URL which will redirect to :url:

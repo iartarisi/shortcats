@@ -79,3 +79,9 @@ class ViewTests(unittest.TestCase):
     def test_shorten_url_no_url_arg(self):
         response = self.app.post('/shorten', data=dict())
         self.assertEqual(response.status, '400 BAD REQUEST')
+
+    def test_index_get_ok(self):
+        response = self.app.get('/')
+        self.assertEqual(response.status, '200 OK')
+        self.assertIn('<form id="shorten" action="/shorten" method="POST"',
+                      response.data)
