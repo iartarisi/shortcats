@@ -4,15 +4,17 @@
 from flask import Flask, abort, redirect, render_template, request
 app = Flask(__name__)
 
-from shortcats.utils import base36_to_int, int_to_base36
+from shortcats.utils import int_to_base36
 from shortcats.configs import rdb
 
 BASE_URL = 'http://localhost:5000/'
+
 
 @app.route("/")
 def index():
     """Show our front page"""
     return render_template("index.html")
+
 
 @app.route("/shorten", methods=['POST'])
 def shorten_url():
@@ -30,6 +32,7 @@ def shorten_url():
 
     return render_template("shortened.html", short=short, original=url)
 
+
 @app.route("/<short>")
 def expand_url(short):
     """Redirects the user to a URL which has already been shortened
@@ -38,9 +41,10 @@ def expand_url(short):
  
     """
     try:
-        return redirect(rdb['shorts|'+short])
+        return redirect(rdb['shorts|' + short])
     except KeyError:
         abort(404)
+
 
 def shorten(url):
     """Shortens a given URL, returning the unique id of that URL
@@ -60,8 +64,9 @@ def shorten(url):
         counter = rdb.incr('url_counter')
         short = int_to_base36(counter)
         rdb.set('urls|' + url, short)
-        rdb.set('shorts|'+short, url)
+        rdb.set('shorts|' + short, url)
         return short
+
 
 def expand(short):
     """Expands a unique id into a URL from the database
@@ -71,7 +76,7 @@ def expand(short):
     Returns a valid URL from the database or None if the id was not found.
 
     """
-    return rdb.get('shorts|'+short.lower())
+    return rdb.get('shorts|' + short.lower())
 
 if __name__ == "__main__":
     app.run()

@@ -1,6 +1,7 @@
 def base36_to_int(s):
     return int(str(s), 36)
 
+
 def int_to_base36(i):
     digits = "0123456789abcdefghijklmnopqrstuvwxyz"
     factor = 0

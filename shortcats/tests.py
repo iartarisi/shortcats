@@ -6,6 +6,8 @@ from shortcats import app, shorten, expand, BASE_URL
 from shortcats.configs import rdb
 
 TEST_URL = 'http://doesn.exist'
+
+
 class ShortenTest(unittest.TestCase):
 
     def tearDown(self):
@@ -13,11 +15,11 @@ class ShortenTest(unittest.TestCase):
 
     # shorten tests
     def test_shorten_already_exists(self):
-        rdb.set('urls|'+TEST_URL, 'a1f')
+        rdb.set('urls|' + TEST_URL, 'a1f')
         self.assertEqual(shorten(TEST_URL), 'a1f')
 
     def test_shorten_doesnt_exist_returns_valid(self):
-        self.assertIsNone(rdb.get('urls|'+TEST_URL))
+        self.assertIsNone(rdb.get('urls|' + TEST_URL))
         self.assertEqual(shorten(TEST_URL), '1')
 
     def test_shorten_doesnt_exist_returns_next(self):
@@ -26,15 +28,15 @@ class ShortenTest(unittest.TestCase):
 
     def test_shorten_doesnt_exist_creates_new(self):
         with self.assertRaises(KeyError):
-            rdb['urls|'+TEST_URL]
-        short = shorten(TEST_URL)
-        self.assertEqual(rdb.get('urls|'+TEST_URL), '1')
+            rdb['urls|' + TEST_URL]
+        shorten(TEST_URL)
+        self.assertEqual(rdb.get('urls|' + TEST_URL), '1')
         self.assertEqual(rdb.get('shorts|1'), TEST_URL)
 
     def test_shorten_doesnt_exist_creates_new_next(self):
         rdb.set('url_counter', 51)
         shorten(TEST_URL)
-        self.assertEqual(rdb.get('urls|'+TEST_URL), '1g')
+        self.assertEqual(rdb.get('urls|' + TEST_URL), '1g')
         self.assertEqual(rdb.get('shorts|1g'), TEST_URL)
 
     # expand tests
@@ -48,6 +50,7 @@ class ShortenTest(unittest.TestCase):
     def test_expands_is_case_insensitive(self):
         rdb.set('shorts|2bogus', TEST_URL)
         self.assertEqual(expand('2BogUs'), TEST_URL)
+
 
 class ViewTests(unittest.TestCase):
 
@@ -65,7 +68,7 @@ class ViewTests(unittest.TestCase):
         rdb.set('shorts|asdf', TEST_URL)
         response = self.app.get('/asdf')
         self.assertEqual(response.status, '302 FOUND')
-        
+
     def test_shorten_url(self):
         response = self.app.post('/shorten', data=dict(url=TEST_URL))
         self.assertEqual(response.status, '200 OK')
@@ -73,7 +76,7 @@ class ViewTests(unittest.TestCase):
                       % dict(original=TEST_URL),
                       response.data)
         self.assertIn('<a id="shortened" href="%(short)s">%(short)s</a>'
-                      % dict(short=BASE_URL+'1'),
+                      % dict(short=BASE_URL + '1'),
                       response.data)
 
     def test_shorten_url_no_url_arg(self):
