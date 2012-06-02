@@ -14,5 +14,5 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=['Flask'],
-    test_suite=""
+    test_suite="shortcats.tests"
     )
