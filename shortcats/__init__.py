@@ -44,7 +44,7 @@ def expand_url(short):
 
     """
     try:
-        return redirect(rdb['shorts|' + short])
+        return redirect(expand(short))
     except KeyError:
         abort(404)
 
@@ -76,10 +76,11 @@ def expand(short):
 
     :short: a string which identifies an already shortened URL
 
-    Returns a valid URL from the database or None if the id was not found.
+    Returns a valid URL from the database. Raises a KeyError if the id
+    was not found.
 
     """
-    return rdb.get('shorts|' + short.lower())
+    return rdb['shorts|' + short.lower()]
 
 if __name__ == "__main__":
     app.run(debug=True)

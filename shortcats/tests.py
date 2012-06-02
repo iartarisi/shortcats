@@ -41,7 +41,7 @@ class ShortenTest(unittest.TestCase):
 
     # expand tests
     def test_expand_doesnt_exist_returns_none(self):
-        self.assertIsNone(expand('bogus'))
+        self.assertRaises(KeyError, expand, 'bogus')
 
     def test_expands_exists(self):
         rdb.set('shorts|1g', TEST_URL)
