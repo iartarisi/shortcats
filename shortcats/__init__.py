@@ -4,7 +4,7 @@
 from flask import Flask, abort, redirect, render_template, request
 app = Flask(__name__)
 
-from shortcats.utils import int_to_base36
+from shortcats.utils import int_to_base36, valid_url
 from shortcats.configs import rdb, BASE_URL
 
 
@@ -25,6 +25,9 @@ def shorten_url():
         url = request.form['url']
     except KeyError:
         abort(400, "The required 'url' form value argument was not provided.")
+
+    if not valid_url(url):
+        abort(400, "The URL you have entered is malformed!")
 
     short = BASE_URL + shorten(url)
 

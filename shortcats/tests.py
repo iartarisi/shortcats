@@ -83,6 +83,10 @@ class ViewTests(unittest.TestCase):
         response = self.app.post('/shorten', data=dict())
         self.assertEqual(response.status, '400 BAD REQUEST')
 
+    def test_shorten_url_invalid_url(self):
+        response = self.app.post('/shorten', data=dict(url='http://bogus!'))
+        self.assertEqual(response.status, '400 BAD REQUEST')
+
     def test_index_get_ok(self):
         response = self.app.get('/')
         self.assertEqual(response.status, '200 OK')
