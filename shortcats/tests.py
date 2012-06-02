@@ -90,6 +90,10 @@ class ViewTests(unittest.TestCase):
         response = self.app.post('/', data=dict(url='http://bogus!'))
         self.assertEqual(response.status, '400 BAD REQUEST')
 
+    def test_shorten_url_doesnt_redirect_back_to_us(self):
+        response = self.app.post('/', data=dict(url=BASE_URL+'not/us/?q=42'))
+        self.assertEqual(response.status, '400 BAD REQUEST')
+
     # index
     def test_index_get_ok(self):
         response = self.app.get('/')

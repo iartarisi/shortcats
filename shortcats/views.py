@@ -1,3 +1,5 @@
+from urlparse import urlparse
+
 from flask import abort, redirect, render_template, request
 
 from shortcats import app
@@ -5,6 +7,7 @@ from shortcats.backend import shorten, expand
 from shortcats.utils import valid_url
 from shortcats.configs import BASE_URL
 
+OUR_HOSTNAME = urlparse(BASE_URL).hostname
 
 @app.route("/", methods=['GET'])
 def index():
@@ -26,6 +29,9 @@ def shorten_url():
 
     if not valid_url(url):
         abort(400, "The URL you have entered is malformed!")
+
+    if OUR_HOSTNAME == urlparse(url).hostname:
+        abort(400, "This is already a shortcats URL!")
 
     short = BASE_URL + shorten(url)
 
