@@ -1,15 +1,32 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from flask import Flask, redirect, abort
+from flask import Flask, abort, redirect, render_template, request
 app = Flask(__name__)
 
 from shortcats.utils import base36_to_int, int_to_base36
 from shortcats.configs import rdb
 
+BASE_URL = 'http://localhost:5000/'
+
 @app.route("/")
 def hello():
     return "Hello World!"
+@app.route("/shorten", methods=['POST'])
+def shorten_url():
+    """Shortens a URL, returning a URL which will redirect to :url:
+
+    :url: a valid URL which should be shortened
+
+    """
+    try:
+        url = request.form['url']
+    except KeyError:
+        abort(400, "The required 'url' form value argument was not provided.")
+
+    short = BASE_URL + shorten(url)
+
+    return render_template("shortened.html", short=short, original=url)
 
 @app.route("/<short>")
 def expand_url(short):

@@ -2,7 +2,7 @@ import unittest
 
 import redis
 
-from shortcats import app, shorten, expand
+from shortcats import app, shorten, expand, BASE_URL
 from shortcats.configs import rdb
 
 TEST_URL = 'http://doesn.exist'
@@ -66,3 +66,16 @@ class ViewTests(unittest.TestCase):
         response = self.app.get('/asdf')
         self.assertEqual(response.status, '302 FOUND')
         
+    def test_shorten_url(self):
+        response = self.app.post('/shorten', data=dict(url=TEST_URL))
+        self.assertEqual(response.status, '200 OK')
+        self.assertIn('<a id="original" href="%(original)s">%(original)s</a>'
+                      % dict(original=TEST_URL),
+                      response.data)
+        self.assertIn('<a id="shortened" href="%(short)s">%(short)s</a>'
+                      % dict(short=BASE_URL+'1'),
+                      response.data)
+
+    def test_shorten_url_no_url_arg(self):
+        response = self.app.post('/shorten', data=dict())
+        self.assertEqual(response.status, '400 BAD REQUEST')
