@@ -61,6 +61,7 @@ class ViewTests(unittest.TestCase):
     def tearDown(self):
         rdb.flushdb()
 
+    # expand_url
     def test_expand_url_not_found(self):
         response = self.app.get('/notfound')
         self.assertEqual(response.status, '404 NOT FOUND')
@@ -70,6 +71,7 @@ class ViewTests(unittest.TestCase):
         response = self.app.get('/asdf')
         self.assertEqual(response.status, '302 FOUND')
 
+    # shorten_url
     def test_shorten_url(self):
         response = self.app.post('/shorten', data=dict(url=TEST_URL))
         self.assertEqual(response.status, '200 OK')
@@ -88,6 +90,7 @@ class ViewTests(unittest.TestCase):
         response = self.app.post('/shorten', data=dict(url='http://bogus!'))
         self.assertEqual(response.status, '400 BAD REQUEST')
 
+    # index
     def test_index_get_ok(self):
         response = self.app.get('/')
         self.assertEqual(response.status, '200 OK')
