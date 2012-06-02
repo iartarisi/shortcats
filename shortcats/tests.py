@@ -2,8 +2,8 @@ import unittest
 
 import redis
 
-from shortcats import app, shorten, expand, BASE_URL
-from shortcats.configs import rdb
+from shortcats import app, shorten, expand
+from shortcats.configs import rdb, BASE_URL
 
 TEST_URL = 'http://doesn.exist'
 

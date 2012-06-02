@@ -5,9 +5,7 @@ from flask import Flask, abort, redirect, render_template, request
 app = Flask(__name__)
 
 from shortcats.utils import int_to_base36
-from shortcats.configs import rdb
-
-BASE_URL = 'http://localhost:5000/'
+from shortcats.configs import rdb, BASE_URL
 
 
 @app.route("/")
