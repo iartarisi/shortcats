@@ -13,6 +13,7 @@ TEST_URL = 'http://doesn.exist'
 # mock urllib2 for views which check the validity of an URL
 urllib2.urlopen = lambda url: True
 
+
 class ShortenTest(unittest.TestCase):
 
     def tearDown(self):
@@ -95,7 +96,7 @@ class ViewTests(unittest.TestCase):
         self.assertEqual(response.status, '400 BAD REQUEST')
 
     def test_shorten_url_doesnt_redirect_back_to_us(self):
-        response = self.app.post('/', data=dict(url=BASE_URL+'not/us/?q=42'))
+        response = self.app.post('/', data=dict(url=BASE_URL + 'not/us/?q=42'))
         self.assertEqual(response.status, '400 BAD REQUEST')
 
     # index

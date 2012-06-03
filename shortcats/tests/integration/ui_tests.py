@@ -7,6 +7,7 @@ from shortcats.configs import BASE_URL, rdb
 
 TEST_URL = 'http://example.com'
 
+
 class UITest(unittest.TestCase):
 
     def setUp(self):

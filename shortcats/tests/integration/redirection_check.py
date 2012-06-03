@@ -9,6 +9,7 @@ from shortcats.configs import rdb
 TEST_URL = 'http://localhost:8000/l33t'
 TEST_PORT = 8000
 
+
 def redirection_server(environ, start_response):
     setup_testing_defaults(environ)
 

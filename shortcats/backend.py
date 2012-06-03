@@ -1,6 +1,7 @@
 from shortcats.utils import int_to_base36
 from shortcats.configs import rdb
 
+
 def shorten(url):
     """Shortens a given URL, returning the unique id of that URL
 

@@ -10,6 +10,7 @@ from shortcats.configs import BASE_URL
 
 OUR_HOSTNAME = urlparse(BASE_URL).hostname
 
+
 @app.route("/", methods=['GET'])
 def index():
     """Show our front page"""
