@@ -3,3 +3,4 @@ redis
 
 # testing
 selenium
+grequests
