@@ -99,6 +99,12 @@ class ViewTests(unittest.TestCase):
         self.assertEqual(response.status, '302 FOUND')
         self.assertEqual(response.location, 'http://google.com/404')
 
+    def test_expand_url_inexistent_passes_through(self):
+        rdb.set('shorts|bad', 'http://bad.badbad')
+        response = self.app.get('/bad')
+        self.assertEqual(response.status, '302 FOUND')
+        self.assertEqual(response.location, 'http://bad.badbad')
+        
     # shorten_url
     def test_shorten_url(self):
         response = self.app.post('/', data=dict(url=TEST_URL))

@@ -77,5 +77,7 @@ def expand_url(short):
         if 'redirect error' in e.msg:
             abort(400, "The URL you were looking for contains a redirection "
                   "error, which makes it redirect infinitely.")
+    except urllib2.URLError:
+        pass  # ignore URLErrors such as inexistent servers
 
     return redirect(url)
