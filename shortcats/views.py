@@ -74,7 +74,7 @@ def expand_url(short):
     try:
         urllib2.urlopen(url)
     except urllib2.HTTPError as e:
-        if 'redirect error' in e.reason:
+        if 'redirect error' in e.msg:
             abort(400, "The URL you were looking for contains a redirection "
                   "error, which makes it redirect infinitely.")
 
