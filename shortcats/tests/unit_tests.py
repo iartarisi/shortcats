@@ -93,6 +93,12 @@ class ViewTests(unittest.TestCase):
         response = self.app.get('/asdf')
         self.assertEqual(response.status, '302 FOUND')
 
+    def test_expand_url_404_passes_through(self):
+        rdb.set('shorts|404g', 'http://google.com/404')
+        response = self.app.get('/404g')
+        self.assertEqual(response.status, '302 FOUND')
+        self.assertEqual(response.location, 'http://google.com/404')
+
     # shorten_url
     def test_shorten_url(self):
         response = self.app.post('/', data=dict(url=TEST_URL))

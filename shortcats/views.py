@@ -77,6 +77,5 @@ def expand_url(short):
         if 'redirect error' in e.reason:
             abort(400, "The URL you were looking for contains a redirection "
                   "error, which makes it redirect infinitely.")
-        abort(400, e)
 
     return redirect(url)
