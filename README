@@ -1,0 +1,16 @@
+Shortcats - URL Shortening with Flask and redis
+=====================================
+
+**License: GNU AGPLv3**
+Copyright (c) 2012 Ionuț Arțăriși <ionut@artarisi.eu>
+
+
+Features
+--------
+
+* readable code (even pylint and pep8 like it)
+* URL validation: infinite redirects/loops, same url as host, URL form validation
+* unit tests
+* UI tests (with selenium)
+* performance tests (with grequests)
+* keys are case insensitive, start small (from '1'!) and grow predictably ('a1z9', 'a1za', 'a1zb'... )
