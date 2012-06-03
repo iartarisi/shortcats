@@ -1,3 +1,5 @@
 The test modules in this directory have special requirements and shouldn't be run together with the unit tests. They might need other services running, or a remote internet connection.
 
 ui_tests.py needs access to an X server, the internet and a running shortcats server
+
+redirection_check.py will create a server in a new process on port 8000

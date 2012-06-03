@@ -1,3 +1,4 @@
+import urllib2
 from urlparse import urlparse
 
 from flask import abort, redirect, render_template, request
@@ -48,6 +49,16 @@ def expand_url(short):
 
     """
     try:
-        return redirect(expand(short))
+        url = expand(short)
     except KeyError:
         abort(404)
+
+    try:
+        urllib2.urlopen(url)
+    except urllib2.HTTPError as e:
+        if 'redirect error' in e.reason:
+            abort(400, "The URL you were looking for contains a redirection "
+                  "error, which makes it redirect infinitely.")
+        abort(400, e)
+
+    return redirect(url)

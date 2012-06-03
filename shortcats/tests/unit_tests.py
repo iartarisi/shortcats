@@ -1,4 +1,6 @@
+import urllib2
 import unittest
+
 
 import redis
 
@@ -8,6 +10,8 @@ from shortcats.configs import rdb, BASE_URL
 
 TEST_URL = 'http://doesn.exist'
 
+# mock urllib2 for views which check the validity of an URL
+urllib2.urlopen = lambda url: True
 
 class ShortenTest(unittest.TestCase):
 
