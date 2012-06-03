@@ -17,7 +17,7 @@
 # along with Shortcats.  If not, see <http://www.gnu.org/licenses/>.
 
 
-"""A simple performance test using POST requests with random valid URLS"""
+"""A simple performance test using POST requests with random URLS"""
 
 import time
 import random
@@ -25,20 +25,29 @@ import random
 import grequests
 
 SERVER_URL = 'http://localhost:5000'
-REQUESTS = 10000
+REQUESTS = 10001
+BROKEN = 5000  # number of invalid urls (the rest will be valid)
 CONCURRENT = 1000
 
 # list of 1000 random urls scraped from http://www.uroulette.com/1000
 with open('random_urls.txt') as f:
     urls = f.read().split()
 
+random_urls = [random.choice(urls) for i in xrange(REQUESTS)]
+# break a number of urls (indicated by BROKEN) randomly by shuffling
+# their letters around
+for i in xrange(BROKEN):
+    x = random.randint(1, REQUESTS)
+    url_letters = [l for l in random_urls[x]]
+    random.shuffle(url_letters)
+    random_urls[x] = ''.join(url_letters)
+
+requests = [grequests.post(SERVER_URL, {'url': url}) for url in random_urls]
+
 beginning = time.time()
-
-requests = [grequests.post(SERVER_URL, {'url': random.choice(urls)})
-            for i in xrange(REQUESTS)]
 responses = grequests.map(requests, size=CONCURRENT)
-
 total = time.time() - beginning
+
 print "Requests: " + str(REQUESTS)
 print "Concurrent: " + str(CONCURRENT)
 print "Average time per request: " + str(total/REQUESTS)
