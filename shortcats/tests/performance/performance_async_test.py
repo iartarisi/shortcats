@@ -50,5 +50,5 @@ total = time.time() - beginning
 
 print "Requests: " + str(REQUESTS)
 print "Concurrent: " + str(CONCURRENT)
-print "Average time per request: " + str(total/REQUESTS)
+print "Average time per request: " + str(total / REQUESTS)
 print "Total time: " + str(total)

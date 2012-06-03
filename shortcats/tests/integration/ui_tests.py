@@ -47,7 +47,7 @@ class UITest(unittest.TestCase):
 
         shortened = self.driver.find_element_by_id('shortened')
         self.assertEqual(shortened.tag_name, 'a')
-        self.assertEqual(BASE_URL+'1', shortened.text)
+        self.assertEqual(BASE_URL + '1', shortened.text)
 
         original = self.driver.find_element_by_id('original')
         self.assertEqual(original.tag_name, 'a')
@@ -55,11 +55,11 @@ class UITest(unittest.TestCase):
 
     def test_expand_url(self):
         rdb.set('shorts|myshorturl', TEST_URL)
-        self.driver.get(BASE_URL+'/myshorturl')
+        self.driver.get(BASE_URL + '/myshorturl')
         self.assertIn('IANA', self.driver.title)
 
     def test_expand_not_found(self):
-        self.driver.get(BASE_URL+'/notfound')
+        self.driver.get(BASE_URL + '/notfound')
         self.assertEqual(self.driver.title, '404 Not Found')
 
     def test_shorten_bad_url(self):
